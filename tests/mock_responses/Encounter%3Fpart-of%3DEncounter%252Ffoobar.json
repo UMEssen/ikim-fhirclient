@@ -1,0 +1,45 @@
+
+{
+  "resourceType": "Bundle",
+  "id": "example-search-bundle",
+  "type": "searchset",
+  "total": 10,
+  "link": [
+    {
+      "relation": "self",
+      "url": "https://liar.liar.pants-on-fhir.com/r4/Encounter?_count=2"
+    },
+    {
+      "relation": "next",
+      "url": "https://liar.liar.pants-on-fhir.com/r4/Encounter?part-of=Encounter/foobar&_some-pagination=2"
+    }
+  ],
+  "entry": [
+    {
+      "fullUrl": "https://liar.liar.pants-on-fhir.com/r4/Encounter/123",
+      "resource": {
+        "resourceType": "Encounter",
+        "id": "123",
+        "partOf": {
+          "reference": "Encounter/foobar"
+        }
+      },
+      "search": {
+        "mode": "match"
+      }
+    },
+    {
+      "fullUrl": "https://liar.liar.pants-on-fhir.com/r4/Encounter/456",
+      "resource": {
+        "resourceType": "Encounter",
+        "id": "456",
+        "partOf": {
+          "reference": "Encounter/foobar"
+        }
+      },
+      "search": {
+        "mode": "match"
+      }
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "name": "ikim-fhirclient",
+  "version": "0.1.0",
+  "packageManager": "yarn@4.5.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "tsup --watch",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "build": "rimraf dist && tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest unit",
+    "integration": "vitest integration",
+    "searchparameters": "python scripts/searchparams.py"
+  },
+  "peerDependencies": {
+    "fhirclient": "^2.5.4"
+  },
+  "devDependencies": {
+    "@jest/globals": "^29.7.0",
+    "@types/fhir": "^0.0.41",
+    "@types/node": "^22.9.0",
+    "@typescript-eslint/eslint-plugin": "^8.13.0",
+    "@typescript-eslint/parser": "^8.13.0",
+    "eslint": "^9.14.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "fhirclient": "^2.5.4",
+    "lint-staged": "^15.2.10",
+    "msw": "^2.6.5",
+    "prettier": "^3.3.3",
+    "rimraf": "^6.0.1",
+    "ts-node": "^10.9.2",
+    "tsup": "^8.3.5",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.5"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "eslint --fix",
+      "prettier --write"
+    ]
+  }
+ 
+}

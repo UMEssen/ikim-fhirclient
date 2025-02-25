@@ -1,0 +1,24 @@
+{
+  "resourceType": "Bundle",
+  "id": "example-patient-bundle",
+  "type": "searchset",
+  "total": 1,
+  "entry": [
+    {
+      "fullUrl": "https://liar.liar.pants-on-fhir.com/r4/Patient/123",
+      "resource": {
+        "resourceType": "Patient",
+        "id": "123",
+        "name": [
+          {
+            "use": "official",
+            "family": "Sokol",
+            "given": ["Kirill"]
+          }
+        ],
+        "gender": "male",
+        "birthDate": "2003-09-04"
+      }
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "resourceType": "Condition",
+  "id": "id-1",
+  "meta": {
+    "versionId": "1",
+    "lastUpdated": "2024-03-20T10:00:00Z"
+  },
+  "clinicalStatus": {
+    "coding": [
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+        "code": "active",
+        "display": "Active"
+      }
+    ]
+  },
+  "verificationStatus": {
+    "coding": [
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+        "code": "confirmed",
+        "display": "Confirmed"
+      }
+    ]
+  },
+  "code": {
+    "coding": [
+      {
+        "system": "http://snomed.info/sct",
+        "code": "73211009",
+        "display": "Diabetes mellitus"
+      }
+    ],
+    "text": "Diabetes mellitus"
+  },
+  "subject": {
+    "reference": "Patient/example",
+    "display": "John Doe"
+  },
+  "onsetDateTime": "2023-01-15",
+  "recordedDate": "2023-01-15T09:30:00Z"
+}

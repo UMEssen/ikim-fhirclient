@@ -1,0 +1,49 @@
+{
+  "resourceType": "Bundle",
+  "type": "searchset",
+  "total": 2,
+  "entry": [
+    {
+      "fullUrl": "http://example.com/fhir/Condition/123",
+      "resource": {
+        "resourceType": "Condition",
+        "id": "123",
+        "subject": {
+          "reference": "Patient/456"
+        },
+        "code": {
+          "coding": [{
+            "system": "http://snomed.info/sct",
+            "code": "73211009",
+            "display": "Diabetes mellitus"
+          }]
+        },
+        "clinicalStatus": {
+          "coding": [{
+            "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+            "code": "active"
+          }]
+        },
+        "verificationStatus": {
+          "coding": [{
+            "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+            "code": "confirmed"
+          }]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://example.com/fhir/Patient/456",
+      "resource": {
+        "resourceType": "Patient",
+        "id": "456",
+        "name": [{
+          "family": "Smith",
+          "given": ["John"]
+        }],
+        "birthDate": "1970-01-01",
+        "gender": "male"
+      }
+    }
+  ]
+}
