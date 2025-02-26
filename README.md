@@ -2,7 +2,7 @@
 
 TypeScript FHIR client wrapping the [client-js](https://github.com/smart-on-fhir/client-js) library developed at the [IKIM](https://www.ikim.uk-essen.de/).
 
-<img src="./assets/IKIM_logo.jpg" alt="IKIM Logo" width="200"/>
+<img src="./assets/IKIM_logo.jpg" alt="IKIM Logo" width="600"/>
 
 > **Note**: This library is currently in development and not all functionality is available. Any part might be changed or removed without prior notice.
 
