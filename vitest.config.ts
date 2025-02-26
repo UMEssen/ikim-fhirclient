@@ -2,7 +2,7 @@ import { resolve } from "node:path";
 
 import { defineConfig } from "vitest/config";
 
-export const config = defineConfig({
+export default defineConfig({
   resolve: {
     alias: [{ find: "@", replacement: resolve(__dirname, "./src") }],
   },
@@ -10,5 +10,6 @@ export const config = defineConfig({
     disableConsoleIntercept: true,
     reporters: ["verbose"],
     silent: false,
+    watch: false,
   },
 });

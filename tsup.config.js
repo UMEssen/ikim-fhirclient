@@ -11,7 +11,18 @@ export default defineConfig({
       js: format === "cjs" ? ".cjs" : ".js",
     };
   },
-  external: ["fhirclient"],
   sourcemap: true,
   treeshake: true,
+  splitting: false,
+  bundle: true,
+  minify: true,
+  esbuildOptions(options) {
+    options.platform = "neutral";
+    options.bundle = true;
+    options.resolveExtensions = [".ts", ".js"];
+    options.mainFields = ["module", "main"];
+    options.loader = {
+      ".js": "jsx",
+    };
+  },
 });

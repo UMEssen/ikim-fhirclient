@@ -1,5 +1,5 @@
-import Client from "fhirclient/lib/Client";
-import BrowserAdapter from "fhirclient/lib/adapters/BrowserAdapter";
+import Client from "fhirclient/lib/Client.js";
+import BrowserAdapter from "fhirclient/lib/adapters/BrowserAdapter.js";
 import type { fhirclient } from "fhirclient/lib/types";
 
 import type { FhirInterceptor, FhirRequest } from "./interceptor";

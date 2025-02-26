@@ -1,6 +1,6 @@
 import { defineWorkspace } from "vitest/config";
 
-export const config = defineWorkspace([
+export default defineWorkspace([
   {
     extends: "./vitest.config.ts",
     test: {
