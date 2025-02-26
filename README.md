@@ -17,9 +17,9 @@ yarn add ikim-fhirclient
 ## Usage
 
 ```typescript
-import { FhirClient } from "ikim-fhirclient";
+import { R4Client } from "ikim-fhirclient";
 
-const client = new FhirClient({
+const client = new R4Client({
   serverUrl: "http://hapi.fhir.org/baseR4",
 });
 ```
