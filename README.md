@@ -4,7 +4,7 @@ TypeScript FHIR client wrapping the [client-js](https://github.com/smart-on-fhir
 
 > **Note**: This library is currently in development and not all functionality is available. Any part might be changed or removed without prior notice.
 
-> **Important**: At the moment, this is a Browser-based library for use with module bundlers in frontend applications. Not intended for direct browser script tags or Node.js backends.
+> **Important**: This is a browser-based library designed for use with module bundlers in frontend applications. It is not intended for direct use with browser script tags or in Node.js backends.
 
 ## Installation
 
