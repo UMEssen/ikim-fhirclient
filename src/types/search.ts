@@ -11,21 +11,21 @@ import type { BundleFrom, OperationOutcomeFrom, ResourceFrom } from "./fhir";
 export type SearchQuery<
   TypeOptions extends BaseClientTypeOptions,
   ResType extends TypeOptions["resourceTypes"],
-> = {
-  resourceType: ResType;
-  usingPost?: boolean;
-  pageLimit?: number;
-} & (
-  | {
+> =
+  & {
+    resourceType: ResType;
+    usingPost?: boolean;
+    pageLimit?: number;
+  }
+  & (
+    | {
       searchParameters?: Partial<TypeOptions["searchParameters"][ResType]>;
+      rawParams?: Record<string, string[] | string>;
     }
-  | {
-      rawParams: Record<string, string[] | string>;
-    }
-  | {
+    | {
       rawUrl: string;
     }
-);
+  );
 
 export type SearchResponse<
   TypeOptions extends BaseClientTypeOptions,
@@ -65,23 +65,22 @@ export type SearchParameterSubset<
   // https://stackoverflow.com/questions/51808160/keyof-inferring-string-number-when-key-is-only-a-string
   SubsetTypes extends keyof SuperParameters & string,
 > = {
-  [ResType in SubsetTypes]: ReduceReferenceParameters<
-    SuperParameters[ResType],
-    SubsetTypes
-  >;
-};
+    [ResType in SubsetTypes]: ReduceReferenceParameters<
+      SuperParameters[ResType],
+      SubsetTypes
+    >;
+  };
 
 type ReduceReference<
   SP extends SearchParameter<SearchType<string>> | undefined,
   ReducedTypes extends string,
-> =
-  SP extends SearchParameter<SearchTypeReference<string>>
-    ? SearchParameter<SearchTypeReference<ReducedTypes>>
-    : SP;
+> = SP extends SearchParameter<SearchTypeReference<string>>
+  ? SearchParameter<SearchTypeReference<ReducedTypes>>
+  : SP;
 
 type ReduceReferenceParameters<
   LU extends Partial<Record<string, SearchParameter<SearchType<string>>>>,
   ReducedTypes extends string,
 > = {
-  [K in keyof LU]: ReduceReference<LU[K], ReducedTypes>;
-};
+    [K in keyof LU]: ReduceReference<LU[K], ReducedTypes>;
+  };
