@@ -15,7 +15,7 @@ import {
 import { searchQueryToParams } from "@/search/querycompiler";
 
 describe("basic query elements", () => {
-  test("raw query", () => {
+  test("raw params", () => {
     const query: MockSearchQuery<"Patient"> = {
       resourceType: "Patient",
       rawParams: {
@@ -27,6 +27,20 @@ describe("basic query elements", () => {
     expect(output.toString()).toBe("name=Kirill&family%3Acontains=Sokol");
   });
 
+
+  test("raw params mixin", () => {
+    const query: MockSearchQuery<"Patient"> = {
+      resourceType: "Patient",
+      searchParameters: {
+        name: "Kirill",
+      },
+      rawParams: {
+        "family:contains": "Sokol",
+      },
+    };
+    const output = searchQueryToParams(query);
+    expect(output.toString()).toBe("name=Kirill&family%3Acontains=Sokol");
+  });
   test("raw search string", () => {
     const query: MockSearchQuery<"Patient"> = {
       resourceType: "Patient",

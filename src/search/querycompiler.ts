@@ -180,7 +180,7 @@ function searchQueryToParamsTree<ResType extends string>(
         ],
     )
     .flatMap(([key, entries]) =>
-      entries.map((e) => [key, e] as [string, QuantifierIntermediate]),
+      entries.map((e) => [key, e] as [string, QuantifierIntermediate])
     )
     .map(
       ([key, { modifier, value }]) =>
@@ -191,6 +191,17 @@ function searchQueryToParamsTree<ResType extends string>(
     )
     .forEach(([key, value]) => urlParams.append(key, value));
   return urlParams;
+}
+
+// overlaps will be duplicated!
+function combineUrlParams(
+  a: URLSearchParams,
+  b: URLSearchParams,
+): URLSearchParams {
+  const acc = new URLSearchParams();
+  [...a.entries(), ...b.entries()]
+    .forEach(([k, v]) => acc.append(k, v));
+  return acc;
 }
 
 function searchQueryToParamsRaw(
@@ -207,11 +218,13 @@ export function searchQueryToParams(
   query: SearchQuery<any, string>,
   overrides?: Record<string, string>,
 ): URLSearchParams {
-  if ("rawParams" in query) {
-    return searchQueryToParamsRaw(query.rawParams);
-  }
   if ("rawUrl" in query) {
     throw Error("raw uri should not be used to extract query parameters!");
   }
-  return searchQueryToParamsTree(query.searchParameters ?? {}, overrides ?? {});
+  const rawParams = searchQueryToParamsRaw(query.rawParams ?? {});
+  const compiledParams = searchQueryToParamsTree(
+    query.searchParameters ?? {},
+    overrides ?? {},
+  );
+  return combineUrlParams(compiledParams, rawParams);
 }
