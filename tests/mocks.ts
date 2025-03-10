@@ -2,7 +2,7 @@ import { readdirSync, readFileSync } from "fs";
 import { afterEach } from "node:test";
 import path from "path";
 
-import type { HttpResponseResolver } from "msw";
+import type { DefaultBodyType, HttpResponseResolver, StrictRequest } from "msw";
 import { http, HttpResponse } from "msw";
 import { setupServer } from "msw/node";
 import { afterAll, beforeAll } from "vitest";
@@ -76,16 +76,35 @@ const mockLookup = readMockLookup(
   path.resolve(__dirname, "../tests/mock_responses"),
 );
 
+const jsonBody = async (
+  req: StrictRequest<DefaultBodyType>,
+): Promise<URLSearchParams | undefined> => {
+  if (req.method !== "POST" || req.body === null) return undefined;
+  const reader = req.body.getReader();
+  const decoder = new TextDecoder();
+  let result = "";
+  while (true) {
+    const { value, done } = await reader.read();
+    if (done) break;
+    result += decoder.decode(value, { stream: true });
+  }
+  return new URLSearchParams(result);
+};
+
 // TODO: refactor
 const mockedHandlers = Object.entries(mockLookup).map(([path, queryLookup]) => {
-  const callback: HttpResponseResolver = ({ request }) => {
+  const callback: HttpResponseResolver = async ({ request }) => {
     const u = new URL(request.url);
 
-    const queryRaw = unescapeQuery(u.searchParams.toString());
+    const body = await jsonBody(request);
+    // const body = request.body
+
+    const queryRaw = unescapeQuery((body ?? u.searchParams).toString());
 
     const lookupData = queryLookup[queryRaw];
-    if (lookupData === undefined)
+    if (lookupData === undefined) {
       throw Error("no defined mock data for " + queryRaw);
+    }
     return HttpResponse.json(lookupData);
   };
   const url = `${mockFhirUrl}/${path}`;

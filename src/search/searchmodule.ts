@@ -16,7 +16,7 @@ export class SearchModule<TypeOptions extends BaseClientTypeOptions> {
   constructor(
     private client: BaseClient,
     private paramOverride: Record<string, string>,
-  ) {}
+  ) { }
 
   private async searchRaw<ResType extends TypeOptions["resourceTypes"]>(
     query: SearchQuery<TypeOptions, ResType>,
@@ -35,13 +35,17 @@ export class SearchModule<TypeOptions extends BaseClientTypeOptions> {
       query,
       this.paramOverride,
     );
+
+    const suffix = (!!query.usingPost) ? "/_search" : `?${params.toString()}`;
+    const url = `${query.resourceType}${suffix}`;
+
+    const body = !!query.usingPost ? params : undefined;
     return await this.client.request<
       BundleFrom<TypeOptions> | OperationOutcomeFrom<TypeOptions>
     >({
-      url: `${query.resourceType}${
-        query.usingPost ? "/_search" : ""
-      }?${params.toString()}`,
+      url,
       method: query.usingPost ? "POST" : "GET",
+      body,
     });
   }
 
@@ -98,8 +102,9 @@ export class SearchModule<TypeOptions extends BaseClientTypeOptions> {
       | SearchQuery<TypeOptions, ResType>
       | SearchBuilder<TypeOptions, ResType>,
   ): Promise<SearchResponse<TypeOptions, ResType>> {
-    const initialQuery =
-      "build" in queryOrBuilder ? queryOrBuilder.build() : queryOrBuilder;
+    const initialQuery = "build" in queryOrBuilder
+      ? queryOrBuilder.build()
+      : queryOrBuilder;
     return this.searchRec(
       initialQuery.resourceType,
       initialQuery,

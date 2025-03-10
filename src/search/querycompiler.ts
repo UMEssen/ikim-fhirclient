@@ -180,7 +180,7 @@ function searchQueryToParamsTree<ResType extends string>(
         ],
     )
     .flatMap(([key, entries]) =>
-      entries.map((e) => [key, e] as [string, QuantifierIntermediate]),
+      entries.map((e) => [key, e] as [string, QuantifierIntermediate])
     )
     .map(
       ([key, { modifier, value }]) =>
