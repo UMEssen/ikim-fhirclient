@@ -1,3 +1,4 @@
+import { fhirclient } from "fhirclient/lib/types";
 import type {
   BaseClientTypeOptions,
   BundleFrom,
@@ -15,11 +16,12 @@ import { searchResponseFromResult } from "./searchresponse";
 export class SearchModule<TypeOptions extends BaseClientTypeOptions> {
   constructor(
     private client: BaseClient,
-    private paramOverride: Record<string, string>,
-  ) { }
+    private paramOverride: Record<string, string>
+  ) {}
 
   private async searchRaw<ResType extends TypeOptions["resourceTypes"]>(
     query: SearchQuery<TypeOptions, ResType>,
+    requestOptions?: fhirclient.FetchOptions
   ): Promise<BundleFrom<TypeOptions> | OperationOutcomeFrom<TypeOptions>> {
     // if rawUrl is provided, just use it and ignore the rest of the query
     // In particular, I hope will this will fix pagination with other servers
@@ -29,14 +31,15 @@ export class SearchModule<TypeOptions extends BaseClientTypeOptions> {
         BundleFrom<TypeOptions> | OperationOutcomeFrom<TypeOptions>
       >({
         url: query.rawUrl.toString(),
+        ...requestOptions,
       });
     }
     const params: URLSearchParams = searchQueryToParams(
       query,
-      this.paramOverride,
+      this.paramOverride
     );
 
-    const suffix = (!!query.usingPost) ? "/_search" : `?${params.toString()}`;
+    const suffix = !!query.usingPost ? "/_search" : `?${params.toString()}`;
     const url = `${query.resourceType}${suffix}`;
 
     const body = !!query.usingPost ? params : undefined;
@@ -46,6 +49,7 @@ export class SearchModule<TypeOptions extends BaseClientTypeOptions> {
       url,
       method: query.usingPost ? "POST" : "GET",
       body,
+      ...requestOptions,
     });
   }
 
@@ -54,6 +58,7 @@ export class SearchModule<TypeOptions extends BaseClientTypeOptions> {
     query: SearchQuery<TypeOptions, ResType> | undefined,
     acc: SearchResponseSuccess<TypeOptions, ResType> | undefined,
     pages: number,
+    requestOptions?: fhirclient.FetchOptions
   ): Promise<SearchResponse<TypeOptions, ResType>> {
     if (pages <= 0 || query === undefined) {
       // done, return accumulated results
@@ -65,14 +70,14 @@ export class SearchModule<TypeOptions extends BaseClientTypeOptions> {
         acc ??
         searchResponseFromResult<TypeOptions, ResType>(
           resourceType,
-          emptyBundle,
+          emptyBundle
         )
       );
     }
     // get the next page
     const response = searchResponseFromResult(
       resourceType,
-      await this.searchRaw(query),
+      await this.searchRaw(query, requestOptions)
     );
 
     if (!response.success) {
@@ -85,31 +90,34 @@ export class SearchModule<TypeOptions extends BaseClientTypeOptions> {
       resourceType,
       response.nextPage(),
       acc?.combine(response) ?? response,
-      pages - 1,
+      pages - 1
     );
   }
 
   async search<ResType extends TypeOptions["resourceTypes"]>(
     initialQuery: SearchQuery<TypeOptions, ResType>,
+    requestOptions?: fhirclient.FetchOptions
   ): Promise<SearchResponse<TypeOptions, ResType>>;
 
   async search<ResType extends TypeOptions["resourceTypes"]>(
     initialQuery: SearchBuilder<TypeOptions, ResType>,
+    requestOptions?: fhirclient.FetchOptions
   ): Promise<SearchResponse<TypeOptions, ResType>>;
 
   async search<ResType extends TypeOptions["resourceTypes"]>(
     queryOrBuilder:
       | SearchQuery<TypeOptions, ResType>
       | SearchBuilder<TypeOptions, ResType>,
+    requestOptions?: fhirclient.FetchOptions
   ): Promise<SearchResponse<TypeOptions, ResType>> {
-    const initialQuery = "build" in queryOrBuilder
-      ? queryOrBuilder.build()
-      : queryOrBuilder;
+    const initialQuery =
+      "build" in queryOrBuilder ? queryOrBuilder.build() : queryOrBuilder;
     return this.searchRec(
       initialQuery.resourceType,
       initialQuery,
       undefined,
       initialQuery.pageLimit ?? 1,
+      requestOptions
     );
   }
 }

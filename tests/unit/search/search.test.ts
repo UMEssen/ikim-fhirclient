@@ -1,11 +1,12 @@
 import type { MockSearchQuery } from "tests/mock_client";
 import { MockClient } from "tests/mock_client";
-import { assert, describe, expect, test } from "vitest";
+import { assert, describe, expect, test, vi } from "vitest";
 
 import { initMockServer } from "../../mocks";
 
 import { reference } from "@";
 import { searchQueryToParams } from "@/search/querycompiler";
+import type { fhirclient } from "fhirclient/lib/types";
 
 describe("mocked queries", () => {
   initMockServer();
@@ -147,5 +148,118 @@ describe("mocked queries", () => {
     assert(conditions[0].resourceType === "Condition");
     assert(patients.length === 1);
     assert(patients[0].resourceType === "Patient");
+  });
+
+  test("search with request options", async () => {
+    const client = new MockClient();
+    
+    // Create a spy on the client's base client
+    const requestSpy = vi.spyOn((client as any).baseClient, "request");
+    
+    // Use existing mock data
+    await client.search(
+      {
+        resourceType: "Patient",
+        searchParameters: {
+          given: "Kirill",
+          name: "Sokol",
+        },
+      },
+      {
+        headers: {
+          "X-Custom-Header": "test-value",
+          "Authorization": "Bearer test-token",
+        },
+      },
+    );
+    
+    // Verify that the request was made
+    expect(requestSpy).toHaveBeenCalled();
+    
+    // Get the actual call arguments
+    const callArgs = requestSpy.mock.calls[0];
+    const requestOptions = callArgs[0] as fhirclient.RequestOptions;
+    
+    // Check if headers are in the correct place
+    expect(requestOptions).toHaveProperty("headers");
+    expect(requestOptions.headers).toMatchObject({
+      "X-Custom-Header": "test-value",
+      "Authorization": "Bearer test-token",
+    });
+    
+    // Clean up the spy
+    requestSpy.mockRestore();
+  });
+
+  test("search with credentials include for cookies", async () => {
+    const client = new MockClient();
+    const requestSpy = vi.spyOn((client as any).baseClient, "request");
+    
+    // Make a search request with credentials options
+    await client.search(
+      {
+        resourceType: "Patient",
+        searchParameters: {
+          given: "Kirill",
+          name: "Sokol",
+        },
+      },
+      {
+        credentials: "include", // This should include cookies in the request
+      },
+    );
+    
+    // Verify that the request was made
+    expect(requestSpy).toHaveBeenCalled();
+    
+    // Check that credentials option was passed correctly
+    const callArgs = requestSpy.mock.calls[0];
+    const requestOptions = callArgs[0] as fhirclient.RequestOptions;
+    
+    // Verify credentials are set to "include" for cookies
+    expect(requestOptions).toHaveProperty("credentials", "include");
+    
+    // Clean up the spy
+    requestSpy.mockRestore();
+  });
+
+  test("search with multiple request options including credentials", async () => {
+    const client = new MockClient();
+    const requestSpy = vi.spyOn((client as any).baseClient, "request");
+    
+    // Make a search request with multiple options
+    await client.search(
+      {
+        resourceType: "Patient",
+        searchParameters: {
+          given: "Kirill",
+          name: "Sokol",
+        },
+      },
+      {
+        credentials: "include", // For cookies
+        headers: {
+          "X-Custom-Header": "custom-value",
+        },
+        mode: "cors", // Add CORS mode
+      },
+    );
+    
+    // Verify that the request was made
+    expect(requestSpy).toHaveBeenCalled();
+    
+    // Get request options
+    const callArgs = requestSpy.mock.calls[0];
+    const requestOptions = callArgs[0] as fhirclient.RequestOptions;
+    
+    // Verify all options were set correctly
+    expect(requestOptions).toHaveProperty("credentials", "include");
+    expect(requestOptions).toHaveProperty("mode", "cors");
+    expect(requestOptions.headers).toMatchObject({
+      "X-Custom-Header": "custom-value",
+    });
+    
+    // Clean up
+    requestSpy.mockRestore();
   });
 });
