@@ -1,6 +1,6 @@
 {
   "name": "ikim-fhirclient",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "packageManager": "yarn@4.5.0",
   "publishConfig": {
     "access": "public"

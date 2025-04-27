@@ -28,9 +28,8 @@ export class FhirClient<TypeOptions extends BaseClientTypeOptions> {
 
 	search<ResType extends TypeOptions['resourceTypes']>(
 		query: SearchQuery<TypeOptions, ResType>,
-		requestOptions?: fhirclient.FetchOptions,
 	): Promise<SearchResponse<TypeOptions, ResType>> {
-		return this.searchModule.search(query, requestOptions);
+		return this.searchModule.search(query, query.requestOptions);
 	}
 
 	// CRUD Module Methods

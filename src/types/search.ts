@@ -16,7 +16,7 @@ export type SearchQuery<
 	resourceType: ResType;
 	usingPost?: boolean;
 	pageLimit?: number;
-	requestOptions?: fhirclient.RequestOptions;
+	requestOptions?: fhirclient.FetchOptions;
 } & (
 	| {
 			searchParameters?: Partial<TypeOptions['searchParameters'][ResType]>;
