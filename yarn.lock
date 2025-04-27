@@ -3617,7 +3617,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fhirclient@npm:^2.5.4":
+"fhirclient@npm:^2.5.5":
   version: 2.5.5
   resolution: "fhirclient@npm:2.5.5"
   dependencies:
@@ -4119,7 +4119,7 @@ __metadata:
     eslint-config-prettier: "npm:^9.1.0"
     eslint-plugin-import: "npm:^2.31.0"
     eslint-plugin-prettier: "npm:^5.2.1"
-    fhirclient: "npm:^2.5.4"
+    fhirclient: "npm:^2.5.5"
     husky: "npm:^9.1.7"
     lint-staged: "npm:^15.2.10"
     msw: "npm:^2.6.5"

@@ -16,15 +16,15 @@
 
 //https://hl7.org/fhir/R4/search.html#prefix
 export type SearchPrefixType =
-  | "eq"
-  | "ne"
-  | "gt"
-  | "lt"
-  | "ge"
-  | "le"
-  | "sa"
-  | "eb"
-  | "ap";
+	| 'eq'
+	| 'ne'
+	| 'gt'
+	| 'lt'
+	| 'ge'
+	| 'le'
+	| 'sa'
+	| 'eb'
+	| 'ap';
 
 export type SearchTypeNumberInner = number;
 export type SearchTypeNumber = SearchPrefixOrValue<SearchTypeNumberInner>;
@@ -36,14 +36,14 @@ export type SearchTypeDate = SearchPrefixOrValue<SearchTypeDateInner>;
 export type SearchTypeString = string;
 
 export type SearchTypeToken =
-  | { system?: string; code: string }
-  | { system: string; code?: string }
-  | string;
+	| { system?: string; code: string }
+	| { system: string; code?: string }
+	| string;
 
 export type SearchTypeReference<ResourceTypes extends string> =
-  | { resourceType?: ResourceTypes; id: string }
-  | { url: string }
-  | string;
+	| { resourceType?: ResourceTypes; id: string }
+	| { url: string }
+	| string;
 
 export type SearchTypeBoolean = boolean;
 
@@ -51,18 +51,18 @@ export type SearchTypeBoolean = boolean;
 // export type SearchTypeComposite = ???
 
 export type SearchPrefix<T> = {
-  prefix: SearchPrefixType;
-  prefixValue: T;
+	prefix: SearchPrefixType;
+	prefixValue: T;
 };
 export type SearchPrefixOrValue<T> = SearchPrefix<T> | T;
 
 export type SearchTypeQuantityInner =
-  | {
-      number: number;
-      system?: string;
-      code?: string; // unit
-    }
-  | number;
+	| {
+			number: number;
+			system?: string;
+			code?: string; // unit
+	  }
+	| number;
 export type SearchTypeQuantity = SearchPrefixOrValue<SearchTypeQuantityInner>;
 
 // TODO: should we seperately encode the version part?
@@ -73,68 +73,68 @@ export type SearchTypeUri = string;
 // export type SearchTypeSpecial = string
 
 export type SearchType<ResourceTypes extends string> =
-  | SearchTypeString
-  | SearchTypeDate
-  | SearchTypeToken
-  | SearchTypeReference<ResourceTypes>
-  | SearchTypeQuantity
-  | SearchTypeUri
-  | SearchTypeNumber
-  | SearchTypeBoolean;
+	| SearchTypeString
+	| SearchTypeDate
+	| SearchTypeToken
+	| SearchTypeReference<ResourceTypes>
+	| SearchTypeQuantity
+	| SearchTypeUri
+	| SearchTypeNumber
+	| SearchTypeBoolean;
 
 // TODO: allow for custom modifiers with typesafety
 // https://hl7.org/fhir/R4/search.html#modifiers
 export type SearchModifier =
-  | {
-      modifier: "missing";
-      value: SearchTypeBoolean | SearchTypeBoolean[];
-    }
-  | {
-      modifier: "contains";
-      value: SearchTypeString | SearchTypeString[];
-    }
-  | {
-      modifier: "exact";
-      value: SearchTypeString | SearchTypeString[];
-    }
-  | {
-      modifier: "text";
-      value: SearchTypeToken | SearchTypeToken[];
-    }
-  | {
-      modifier: "in";
-      value: SearchTypeToken | SearchTypeToken[];
-    }
-  | {
-      modifier: "below";
-      value: SearchTypeToken | SearchTypeToken[];
-    }
-  | {
-      modifier: "above";
-      value: SearchTypeToken | SearchTypeToken[];
-    }
-  | {
-      modifier: "not";
-      value: SearchTypeToken | SearchTypeToken[];
-    }
-  | {
-      modifier: "not-in";
-      value: SearchTypeToken | SearchTypeToken[];
-    };
+	| {
+			modifier: 'missing';
+			value: SearchTypeBoolean | SearchTypeBoolean[];
+	  }
+	| {
+			modifier: 'contains';
+			value: SearchTypeString | SearchTypeString[];
+	  }
+	| {
+			modifier: 'exact';
+			value: SearchTypeString | SearchTypeString[];
+	  }
+	| {
+			modifier: 'text';
+			value: SearchTypeToken | SearchTypeToken[];
+	  }
+	| {
+			modifier: 'in';
+			value: SearchTypeToken | SearchTypeToken[];
+	  }
+	| {
+			modifier: 'below';
+			value: SearchTypeToken | SearchTypeToken[];
+	  }
+	| {
+			modifier: 'above';
+			value: SearchTypeToken | SearchTypeToken[];
+	  }
+	| {
+			modifier: 'not';
+			value: SearchTypeToken | SearchTypeToken[];
+	  }
+	| {
+			modifier: 'not-in';
+			value: SearchTypeToken | SearchTypeToken[];
+	  };
 
 export type SearchQuantifier<T> =
-  | {
-      quantifier: "multiple-and";
-      modOrVals: SearchModifierOrValue<T>[];
-    }
-  | SearchModifierOrValue<T>;
+	| {
+			quantifier: 'multiple-and';
+			modOrVals: SearchModifierOrValue<T>[];
+	  }
+	| SearchModifierOrValue<T>;
 // no explicit multiple-or
 
 export type SearchQuantifierOrModifierOrValue<T> = SearchModifierOrValue<T>;
 export type SearchModifierOrValue<T> =
-  | T
-  | T[]
-  | (SearchModifier & { value: T | T[] });
+	| T
+	| T[]
+	| (SearchModifier & { value: T | T[] });
 
 // better alias
 export type SearchParameter<T> = SearchQuantifier<T>;
