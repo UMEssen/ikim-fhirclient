@@ -1,5 +1,5 @@
 {
-  "name": "ikim-fhirclient",
+  "name": "@trostalski/ikim-fhirclient",
   "version": "0.1.6",
   "packageManager": "yarn@4.5.0",
   "publishConfig": {
