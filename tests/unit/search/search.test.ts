@@ -164,12 +164,12 @@ describe('mocked queries', () => {
 					given: 'Kirill',
 					name: 'Sokol',
 				},
-			},
-			{
-				headers: {
-					'X-Custom-Header': 'test-value',
-					Authorization: 'Bearer test-token',
-				},
+        requestOptions: {
+				  headers: {
+				  	'X-Custom-Header': 'test-value',
+				  	Authorization: 'Bearer test-token',
+				  },
+			  },
 			},
 		);
 
@@ -203,9 +203,9 @@ describe('mocked queries', () => {
 					given: 'Kirill',
 					name: 'Sokol',
 				},
-			},
-			{
-				credentials: 'include', // This should include cookies in the request
+        requestOptions: {
+				  credentials: 'include', // This should include cookies in the request
+			  },
 			},
 		);
 
@@ -235,13 +235,13 @@ describe('mocked queries', () => {
 					given: 'Kirill',
 					name: 'Sokol',
 				},
-			},
-			{
-				credentials: 'include', // For cookies
-				headers: {
-					'X-Custom-Header': 'custom-value',
-				},
-				mode: 'cors', // Add CORS mode
+        requestOptions: {
+				  credentials: 'include', // For cookies
+				  headers: {
+				  	'X-Custom-Header': 'custom-value',
+				  },
+				  mode: 'cors', // Add CORS mode
+			  },
 			},
 		);
 
