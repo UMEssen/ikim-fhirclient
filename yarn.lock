@@ -1594,6 +1594,33 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@trostalski/ikim-fhirclient@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "@trostalski/ikim-fhirclient@workspace:."
+  dependencies:
+    "@jest/globals": "npm:^29.7.0"
+    "@types/fhir": "npm:^0.0.41"
+    "@types/node": "npm:^22.9.0"
+    "@typescript-eslint/eslint-plugin": "npm:^8.13.0"
+    "@typescript-eslint/parser": "npm:^8.13.0"
+    eslint: "npm:^9.14.0"
+    eslint-config-prettier: "npm:^9.1.0"
+    eslint-plugin-import: "npm:^2.31.0"
+    eslint-plugin-prettier: "npm:^5.2.1"
+    fhirclient: "npm:^2.5.5"
+    husky: "npm:^9.1.7"
+    lint-staged: "npm:^15.2.10"
+    msw: "npm:^2.6.5"
+    prettier: "npm:^3.3.3"
+    rimraf: "npm:^6.0.1"
+    ts-node: "npm:^10.9.2"
+    tsup: "npm:^8.3.5"
+    tsx: "npm:^4.19.2"
+    typescript: "npm:^5.6.3"
+    vitest: "npm:^2.1.5"
+  languageName: unknown
+  linkType: soft
+
 "@tsconfig/node10@npm:^1.0.7":
   version: 1.0.11
   resolution: "@tsconfig/node10@npm:1.0.11"
@@ -4105,33 +4132,6 @@ __metadata:
   checksum: 10c0/f9f652c957983634ded1e7f02da3b559a0d4cc210fca3792cb67f1b153623c9c42efdc1c4121af171e295444459fc4a9201101fb041b1104a3c000bccb188337
   languageName: node
   linkType: hard
-
-"ikim-fhirclient@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "ikim-fhirclient@workspace:."
-  dependencies:
-    "@jest/globals": "npm:^29.7.0"
-    "@types/fhir": "npm:^0.0.41"
-    "@types/node": "npm:^22.9.0"
-    "@typescript-eslint/eslint-plugin": "npm:^8.13.0"
-    "@typescript-eslint/parser": "npm:^8.13.0"
-    eslint: "npm:^9.14.0"
-    eslint-config-prettier: "npm:^9.1.0"
-    eslint-plugin-import: "npm:^2.31.0"
-    eslint-plugin-prettier: "npm:^5.2.1"
-    fhirclient: "npm:^2.5.5"
-    husky: "npm:^9.1.7"
-    lint-staged: "npm:^15.2.10"
-    msw: "npm:^2.6.5"
-    prettier: "npm:^3.3.3"
-    rimraf: "npm:^6.0.1"
-    ts-node: "npm:^10.9.2"
-    tsup: "npm:^8.3.5"
-    tsx: "npm:^4.19.2"
-    typescript: "npm:^5.6.3"
-    vitest: "npm:^2.1.5"
-  languageName: unknown
-  linkType: soft
 
 "import-fresh@npm:^3.2.1":
   version: 3.3.1
